@@ -7,7 +7,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 import schemas
 from deps import get_token
-from utils import generate_lyrics, generate_music, get_feed, get_lyrics, get_credits
+from utils import generate_lyrics, generate_music, get_feed, get_all_feed, get_lyrics, get_credits
 
 app = FastAPI()
 
@@ -56,6 +56,16 @@ async def generate_with_song_description(
 async def fetch_feed(aid: str, token: str = Depends(get_token)):
     try:
         resp = await get_feed(aid, token)
+        return resp
+    except Exception as e:
+        raise HTTPException(
+            detail=str(e), status_code=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )
+
+@app.get("/feed/")
+async def fetch_all_feed(token: str = Depends(get_token)):
+    try:
+        resp = await get_all_feed(token)
         return resp
     except Exception as e:
         raise HTTPException(

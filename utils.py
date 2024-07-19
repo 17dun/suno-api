@@ -42,6 +42,11 @@ async def get_feed(ids, token):
     response = await fetch(api_url, headers, method="GET")
     return response
 
+async def get_all_feed(token):
+    headers = {"Authorization": f"Bearer {token}"}
+    api_url = f"{BASE_URL}/api/feed/"
+    response = await fetch(api_url, headers, method="GET")
+    return response
 
 async def generate_music(data, token):
     headers = {"Authorization": f"Bearer {token}"}
